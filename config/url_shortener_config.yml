@@ -1,0 +1,11 @@
+development:
+  server: http://admin:secret@di-url-shortener.local
+
+test:
+  server: http://admin:secret@di-url-shortener.local
+  
+production:
+  server: http://admin:secret@l.d5i7.net
+  
+staging:
+  server: http://admin:secret@l.d5i7.net
