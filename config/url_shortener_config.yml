@@ -6,6 +6,9 @@ test:
   
 production:
   server: http://admin:secret@l.d5i7.net
+
+demo:
+  server: http://admin:secret@l.d5i7.net
   
 staging:
   server: http://admin:secret@l.d5i7.net
