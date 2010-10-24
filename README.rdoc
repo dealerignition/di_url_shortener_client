@@ -1,16 +1,35 @@
 = url_shortener_client
 
-Description goes here.
+The url shortener itself (https://github.com/dealerignition/di_url_shortener) runs on the engineyard instance, and responds to requests at http://l.d5i7.net. The client gem (https://github.com/dealerignition/di_url_shortener_client) posts a url to http://l.d5i7.net/, and gets back a shortened url and the id of the url (used later to retrieve stats). The shortener service stores the url in a database, and uses the base58 encoded id (using http://github.com/dougal/base58) as the abbreviation in the short url. When the url is accessed, the shortener redirects to the source url, and stores the requesters referrer and ip address. You can later use the client to make a stats() call, passing it the id it received from the create call, and currently just get back a total of the clicks (the referrer and ip data is stored, but not currently exposed via the stats call).
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+Here is an example of usage:
+
+irb:
+ruby-1.8.7-p302 > ap UrlShortenerClient.create('http://google.com')
+{
+    "shortened_url" => "http://l.d5i7.net/9M",
+       "created_at" => "2010/10/23 06:46:45 -0700",
+       "updated_at" => "2010/10/23 06:46:45 -0700",
+              "url" => "http://google.com",
+               "id" => 509
+}
+
+bash:
+$ wget http://l.d5i7.net/9M
+--2010-10-23 09:54:47--  http://l.d5i7.net/9M
+Resolving l.d5i7.net... 184.73.210.143
+Connecting to l.d5i7.net|184.73.210.143|:80... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: http://google.com [following]
+--2010-10-23 09:54:47--  http://google.com/
+...
+
+irb:
+ruby-1.8.7-p302 > ap UrlShortenerClient.stats(509)
+{
+    "click_count" => 1
+}
+
 
 == Copyright
 
